@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const { User } = require('./db/index.js');
 const { Todo } = require('./db/index.js')
 const middlewares = require('./middlewares/user.js');
-const { useId } = require('react');
+// const { useId } = require('react');
 
 const app = express();
 app.use(express.json());
@@ -159,10 +159,10 @@ app.post('/api/v1/todos/todo', middlewares, async (req,res)=>{
     }
 });
 
-const todoUpdatedSchema = z.object({
-    title: z.string(),
-    description: z.string(),
-    status: z.enum(['pending', 'in-progress', 'completed']).optional()
+const todoUpdatedSchema = zod.object({
+    title: zod.string(),
+    description: zod.string(),
+    status: zod.enum(['pending', 'in-progress', 'completed']).optional()
 });
 
 app.put('/api/v1/todos/edit/:id', middlewares, async(req,res)=>{

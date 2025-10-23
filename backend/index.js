@@ -1,10 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const zod = require('zod');
 const jwt = require('jsonwebtoken');
 const { User } = require('./db/index.js');
 const { Todo } = require('./db/index.js')
 const middlewares = require('./middlewares/user.js');
-// const { useId } = require('react');
 
 const app = express();
 app.use(express.json());
@@ -20,7 +20,7 @@ app.post("/api/v1/user/signup", async (req,res)=>{
     console.log(body)
     const result = signupValidation.safeParse(body);
 
-    if(!res.success){
+    if(!result.success){
         return res.json({
             message: result.error.errors
         })

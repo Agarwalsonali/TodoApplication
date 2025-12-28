@@ -26,11 +26,9 @@ export default function Appbar()
                <Link to={'/'}> Home </Link>
             </div>
             <div className="hover:text-amber-600 cursor-pointer transition duration-200">
-               <Link to={'/about'}>About us</Link>
+               <Link to="/dashboard">Dashboard</Link>
             </div>
-            <div className="hover:text-amber-600 cursor-pointer transition duration-200">
-               <Link to={'/contact'}> Contact Us</Link>
-            </div>
+        
             {token?<div className="hover:text-amber-600 cursor-pointer transition duration-200" onClick={logoutHandle}>
                Logout
             </div>:

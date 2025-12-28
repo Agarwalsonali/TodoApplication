@@ -175,10 +175,13 @@ router.delete('/delete/:id',middleware,async(req,res)=>{
         return res.status(500).json({ message: "Something went wrong" });
       }
 })
-router.get('/show',middleware,async(req,res)=>{
-    const allTodos = await Todo.find({userId:req.userId});
-    return res.json({
-        allTodos:allTodos
-    })
-})
+
+router.get('/show', middleware, async (req, res) => {
+    try {
+        const allTodos = await Todo.find({ userId: req.userId });
+        return res.json(allTodos); 
+    } catch (err) {
+        return res.status(500).json({ message: "Failed to fetch todos" });
+    }
+});
 module.exports = router;

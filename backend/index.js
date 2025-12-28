@@ -1,21 +1,27 @@
 const express = require('express');
-// const cors = require('cors');
+const cors = require('cors');
+const dotenv = require('dotenv')
+
+dotenv.config();
+
 const app = express();
-const PORT = 3030;
-app.use(express.json());//
 
-// app.use(cors({
-//     allowedHeaders: ['Authorization', 'Content-Type'],
-//     origin: '*', // Or specify your frontend's domain here
-// }));
-
-const mainRoute =require('./routes/index')
-app.use('/api/v1',mainRoute);
+console.log("Backend booting...");
 
 
+app.use(express.json());
+app.use(cors({
+  origin: '*',
+  allowedHeaders: ['Authorization', 'Content-Type'],
+}));
 
-app.listen(PORT,()=>{
-    console.log(`App is listening on ${PORT}`);
-})
+const mainRoute = require('./routes/index');
+app.use('/api/v1', mainRoute);
 
-    
+app.listen(process.env.PORT, () => {
+  console.log(`App is listening on ${process.env.PORT}`);
+});
+
+app.get("/health", (req, res) => {
+  res.send("Backend is alive");
+});

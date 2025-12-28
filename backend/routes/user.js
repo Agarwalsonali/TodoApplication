@@ -4,7 +4,9 @@ const zod = require('zod');
 const jwt = require('jsonwebtoken')
 const middleware = require('../middlewares/user')
 const { User } = require('../db');
-const { JWT_SECRET } = require('../config')
+const dotenv=require('dotenv')
+
+dotenv.config();
 
 const signupValidation = zod.object({
     username:zod.string().email('enter the correct email'),
@@ -42,7 +44,7 @@ router.post('/signup',async(req,res)=>{
     
     const token = jwt.sign({
         userId:dbuser._id
-    },JWT_SECRET)
+    },process.env.JWT_SECRET)
     res.json({
         message:"user created successfully",
         token:token
@@ -78,7 +80,7 @@ router.post('/signin',async(req,res)=>{
     {
         const token = jwt.sign({
             userId:user._id,
-        },JWT_SECRET)
+        },process.env.JWT_SECRET)
         return res.json({
             token:token
         })

@@ -33,13 +33,29 @@ export default function Signup()
             <InputBox onChange={(e)=>{setFirstName(e.target.value)}} placeholder={"Enter your Firstname"} label={"First Name"} id={"firstname"} type={"text"}/>
             <InputBox onChange={(e)=>{setLastName(e.target.value)}} placeholder={"Enter your Lastname"} label={"Last Name"} id={"lastname"} type={"text"}/>
             <Button onClick={async()=>{
-                const response = await axios.post('http://localhost:3030/api/v1/user/signup',{
+                const response = await axios.post('http://localhost:4000/api/v1/user/signup',{
                     username,
                     password,
                     firstName,
                     lastName
                 })
                 console.log(response.data.token);
+
+                if (!response.data.token) {
+        // Handle validation errors (Zod)
+        if (Array.isArray(response.data.message)) {
+          alert(response.data.message[0].message);
+        }
+        // Handle user already exists
+        else if (response.data.Message) {
+          alert(response.data.Message);
+        }
+        else {
+          alert("Signup failed");
+        }
+        return;
+      }
+
                 
                 localStorage.setItem("token",response.data.token);
                 localStorage.setItem("username",username);

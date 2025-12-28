@@ -27,13 +27,15 @@ export default function Dashboard() {
   const handleDelete = async(id)=>
   {
     try{
-        await axios.delete(`http://localhost:3030/api/v1/todos/delete/${id}`,{
+        await axios.delete(`http://localhost:4000/api/v1/todos/delete/${id}`,{
         headers:{
           Authorization: "Bearer " + localStorage.getItem("token")
         }
         
       })
-      await fetchTodos();
+      const data = await useFetchTodos();
+        setAllTodo(data);
+
     }
     catch(err)
     {
@@ -79,7 +81,7 @@ export default function Dashboard() {
                 <Button label={"Delete"} bgColor={"orange"} onClick={async()=>{
                     // console.log(item._id);
                     
-                   await axios.delete(`http://localhost:3030/api/v1/todos/delete/${item._id}`,{
+                   await axios.delete(`http://localhost:4000/api/v1/todos/delete/${item._id}`,{
                     headers:{
                       Authorization: "Bearer " + localStorage.getItem("token")
                     }
@@ -140,7 +142,7 @@ export default function Dashboard() {
                   
                   
                    const response = await axios.post(
-                    'http://localhost:3030/api/v1/todos/todo',
+                    'http://localhost:4000/api/v1/todos/todo',
                     {
                       title: title,
                       description: description,

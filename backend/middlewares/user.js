@@ -1,53 +1,47 @@
-const jwt = require('jsonwebtoken');
-const { JWT_SECRET } = require('../config')
+const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
 
-const middleware = (req,res,next)=>{
-    const authHeaders = req.headers.authorization?.split(' ')[1]; // Bearer token
+dotenv.config();
 
-//    console.log("Token is:",authHeaders);
+const middleware = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+
+  console.log("AUTH HEADER:", authHeader);
+
+  
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({
+      message: "Authorization token missing"
+    });
+  }
+
+  const token = authHeader.split(" ")[1];
+
+  try {
+  
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    console.log("DECODED TOKEN:", decoded);
+
+    
+    if (!decoded.userId) {
+      return res.status(401).json({
+        message: "Invalid token payload"
+      });
+    }
+
    
-    if(!authHeaders)
-    {
-        return res.json({
-            message:"token not found"
-        })
-    }
-    // console.log(authHeaders);
-    
-    
-   
-    
-    try{
-        
-        let decodedToken = jwt.verify(authHeaders, JWT_SECRET);
-        console.log(decodedToken);
-        console.log(decodedToken.userId);
-        
-        if(decodedToken.userId)
-        {
-            req.userId = decodedToken.userId;
-            next();
-        }
-        else
-        {
-            return res.json({
-                message:"User not found"
-            })
-        }
-    }
-    catch(err)
-    {
-        //console.log(decodedToken);
-        
-        return res.status(404).json({
-            msg:"error"
-        })
-    }
+    req.userId = decoded.userId;
 
-        
-}
+  
+    next();
+
+  } catch (err) {
+    console.error("JWT ERROR:", err.message);
+    return res.status(401).json({
+      message: "Invalid or expired token"
+    });
+  }
+};
+
 module.exports = middleware;
-   
-    
-
-

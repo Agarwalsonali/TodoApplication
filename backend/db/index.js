@@ -1,18 +1,20 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
+import dotenv from "dotenv";
 
-async function connnectDB()
-{
-    try
-    {
-        await mongoose.connect('mongodb+srv://prrajpoot12234:HwRz2CJt4WrcWJuK@cluster0.4zk98.mongodb.net/Todo_app');
-        console.log("Connected to DBs");
-    }
-    catch(error)
-    {
-        console.log("connection failed",error);
-    }
-}
-connnectDB();
+dotenv.config();
+
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URL);
+    console.log("MongoDB connected successfully");
+  } catch (error) {
+    console.error(" MongoDB connection failed");
+    console.error(error.message);
+    process.exit(1);
+  }
+};
+
+connectDB();
 const todoSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -79,7 +81,4 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model("User",userSchema);
 const Todo = mongoose.model("Todo",todoSchema);
 
-module.exports={
-    User,
-    Todo
-}
+export { User, Todo };

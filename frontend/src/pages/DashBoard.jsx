@@ -27,7 +27,7 @@ export default function Dashboard() {
   const handleDelete = async(id)=>
   {
     try{
-        await axios.delete(`${import.meta.env.VITE_API_URL}/api/v1/todos/delete${id}`,{
+        await axios.delete(`${import.meta.env.VITE_API_URL}/api/v1/todos/delete/${id}`,{
         headers:{
           Authorization: "Bearer " + localStorage.getItem("token")
         }
@@ -81,7 +81,7 @@ export default function Dashboard() {
                 <Button label={"Delete"} bgColor={"orange"} onClick={async()=>{
                     // console.log(item._id);
                     
-                   await axios.delete(`${import.meta.env.VITE_API_URL}/api/v1/todos/delete${item._id}`,{
+                   await axios.delete(`${import.meta.env.VITE_API_URL}/api/v1/todos/delete/${item._id}`,{
                     headers:{
                       Authorization: "Bearer " + localStorage.getItem("token")
                     }

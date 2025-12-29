@@ -12,7 +12,7 @@ export default function EditTodo() {
   const [updatedDeadLine,setUpdatedDeadLine] = useState("");
 
   const editTodo = async()=>{
-    const response =await axios.put(`http://localhost:4000/api/v1/todos/edit/${id}`,
+    const response =await axios.put(`${import.meta.env.VITE_API_URL}/api/v1/todos/edit/${id}`,
       {
         title:updatedTitle,
         description:updatedDescription,

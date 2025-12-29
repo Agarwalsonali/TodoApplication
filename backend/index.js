@@ -22,6 +22,6 @@ app.listen(process.env.PORT, () => {
   console.log(`App is listening on ${process.env.PORT}`);
 });
 
-app.get("/health", (req, res) => {
-  res.send("Backend is alive");
-});
+// app.get("/health", (req, res) => {
+//   res.send("Backend is alive");
+// });

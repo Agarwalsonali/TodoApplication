@@ -33,7 +33,7 @@ export default function Signup()
             <InputBox onChange={(e)=>{setFirstName(e.target.value)}} placeholder={"Enter your Firstname"} label={"First Name"} id={"firstname"} type={"text"}/>
             <InputBox onChange={(e)=>{setLastName(e.target.value)}} placeholder={"Enter your Lastname"} label={"Last Name"} id={"lastname"} type={"text"}/>
             <Button onClick={async()=>{
-                const response = await axios.post('http://localhost:4000/api/v1/user/signup',{
+                const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/user/signup`,{
                     username,
                     password,
                     firstName,
